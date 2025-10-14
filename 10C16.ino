@@ -39,7 +39,7 @@ void loop() {
   
   if (50<distance && distance<100)   // 거리가 5cm~10cm 사이가 되면 차단기가 열림. 그후 몇초뒤 닫힘. 
   {
-    smoothstep();
+    sigmoid();
   }
   
   Serial.print(",distance:");  Serial.print(distance);
@@ -67,13 +67,13 @@ void sigmoid()
     }
 }
 
-void smoothstep()
+void smootherstep()
 {
     for (int i=0; i<=steps; i++)
     {
-      float smoothstepInput = mapfloat(i, 0, steps, 0.0, 1.0);
-      float smoothstep_progress = smoothstepInput*smoothstepInput*(3.0-2.0*smoothstepInput)*90;
-      myServo.write(smoothstep_progress);
+      float smootherstepInput = mapfloat(i, 0, steps, 0.0, 1.0);
+      float smootherstep_progress = smootherstepInput*smootherstepInput*smootherstepInput*(6.0*smootherstepInput*smootherstepInput-15.0*smootherstepInput+10)*90;
+      myServo.write(smootherstep_progress);
       delay(30);
     }
     
@@ -81,9 +81,9 @@ void smoothstep()
 
     for (int i=0; i<=steps; i++)
     {
-      float smoothstepInput = mapfloat(i, 0, steps, 1.0, 0.0);
-      float smoothstep_progress = smoothstepInput*smoothstepInput*(3.0-2.0*smoothstepInput)*90;
-      myServo.write(smoothstep_progress);
+      float smootherstepInput = mapfloat(i, 0, steps, 1.0, 0.0);
+      float smootherstep_progress = smootherstepInput*smootherstepInput*(3.0-2.0*smootherstepInput)*90;
+      myServo.write(smootherstep_progress);
       delay(30);
     }
 }
@@ -104,3 +104,4 @@ float mapfloat(float x, float in_min, float in_max, float out_min, float out_max
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 
 }
+
